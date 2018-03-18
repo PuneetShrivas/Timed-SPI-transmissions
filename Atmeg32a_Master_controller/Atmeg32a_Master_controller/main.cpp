@@ -16,7 +16,7 @@ uint8_t data; //variable for exchange
 void SPI_init_Master(void)  //initialization as master board
 {
 	DDRB|=(1<<PINB7)|(1<<PINB5); //DDRB&=(0<<PINB6);//sets MOSI and SCK as output
-	SPCR|=(1<<SPE)|(1<<MSTR)|(1<<SPIE)|(1<<SPR0); // Enabled SPI, SPI interrupt, device is master, Prescaler Used :16	(frequency of SCK= Fosc/16)
+	SPCR|=(1<<SPE)|(1<<MSTR)|(1<<SPIE)|(1<<SPI2X); // Enabled SPI, SPI interrupt, device is master, Prescaler Used :2	(frequency of SCK= Fosc/2)
 	sei(); //global interrupt
 }
 

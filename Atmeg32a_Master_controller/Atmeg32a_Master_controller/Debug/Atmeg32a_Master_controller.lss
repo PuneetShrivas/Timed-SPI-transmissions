@@ -3,29 +3,29 @@ Atmeg32a_Master_controller.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000152  00000000  00000000  00000054  2**1
+  0 .text         0000013e  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000001a6  2**0
+  1 .data         00000000  00800060  00800060  00000192  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  000001a6  2**0
+  2 .comment      00000030  00000000  00000000  00000192  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001d8  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001c4  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000050  00000000  00000000  00000214  2**0
+  4 .debug_aranges 00000058  00000000  00000000  00000200  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000684  00000000  00000000  00000264  2**0
+  5 .debug_info   000006a1  00000000  00000000  00000258  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000596  00000000  00000000  000008e8  2**0
+  6 .debug_abbrev 000005b1  00000000  00000000  000008f9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000001e5  00000000  00000000  00000e7e  2**0
+  7 .debug_line   000001f5  00000000  00000000  00000eaa  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000cc  00000000  00000000  00001064  2**2
+  8 .debug_frame  000000dc  00000000  00000000  000010a0  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000003cb  00000000  00000000  00001130  2**0
+  9 .debug_str    000003fb  00000000  00000000  0000117c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000125  00000000  00000000  000014fb  2**0
+ 10 .debug_loc    00000125  00000000  00000000  00001577  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000040  00000000  00000000  00001620  2**0
+ 11 .debug_ranges 00000048  00000000  00000000  0000169c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -75,13 +75,13 @@ Disassembly of section .text:
   6c:	b2 07       	cpc	r27, r18
   6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
   70:	0e 94 5e 00 	call	0xbc	; 0xbc <main>
-  74:	0c 94 a7 00 	jmp	0x14e	; 0x14e <_exit>
+  74:	0c 94 9d 00 	jmp	0x13a	; 0x13a <_exit>
 
 00000078 <__bad_interrupt>:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 0000007c <_Z15SPI_init_Masterv>:
-			PORTA|=(1<<PINA0);     
+			PORTA|=(1<<PINA0);
 		}
 		else if(color==1) // turns LED green
 		{
@@ -137,7 +137,7 @@ void SPI_transfer(uint8_t data)
 000000bc <main>:
 }
 
-	
+
 int main(void)
 {
 	SPI_init_Master();
@@ -148,7 +148,7 @@ int main(void)
   c4:	8a b3       	in	r24, 0x1a	; 26
   c6:	87 60       	ori	r24, 0x07	; 7
   c8:	8a bb       	out	0x1a, r24	; 26
-	PORTA=0b00000000; //set PINA0 and PINA1 as output and low	
+	PORTA=0b00000000; //set PINA0 and PINA1 as output and low
   ca:	1b ba       	out	0x1b, r1	; 27
 	TCCR0|=(1<<CS00);
   cc:	83 b7       	in	r24, 0x33	; 51
@@ -162,7 +162,7 @@ int main(void)
   d8:	89 b7       	in	r24, 0x39	; 57
   da:	80 61       	ori	r24, 0x10	; 16
   dc:	89 bf       	out	0x39, r24	; 57
-	OCR1A=979;		// required frequency =532us ,prescaler=1, OCR1A= (16Mhz*532us/1)-1 = 8511, OCR1A= 4255 with prescaler 2 and Fosc=16Mhz
+	OCR1A=979;		// required frequency =532us , OCR1A= (frequency*532us/1)-1
   de:	83 ed       	ldi	r24, 0xD3	; 211
   e0:	93 e0       	ldi	r25, 0x03	; 3
   e2:	9b bd       	out	0x2b, r25	; 43
@@ -192,50 +192,35 @@ ISR (TIMER1_COMPA_vect) //timing the data transfer
  104:	bf 93       	push	r27
  106:	ef 93       	push	r30
  108:	ff 93       	push	r31
-	PORTA^=(1<<PINA1);
+	PORTA^=(1<<PINA1); //checking timer
  10a:	9b b3       	in	r25, 0x1b	; 27
  10c:	82 e0       	ldi	r24, 0x02	; 2
  10e:	89 27       	eor	r24, r25
  110:	8b bb       	out	0x1b, r24	; 27
-	
-	SPI_transfer(1);
+	SPI_transfer(1); // initiate transfer
  112:	81 e0       	ldi	r24, 0x01	; 1
  114:	0e 94 56 00 	call	0xac	; 0xac <_Z12SPI_transferh>
-	PORTA^=(1<<PINA2);
- 118:	9b b3       	in	r25, 0x1b	; 27
- 11a:	84 e0       	ldi	r24, 0x04	; 4
- 11c:	98 27       	eor	r25, r24
- 11e:	9b bb       	out	0x1b, r25	; 27
-	PORTA^=(1<<PINA2);
- 120:	9b b3       	in	r25, 0x1b	; 27
- 122:	98 27       	eor	r25, r24
- 124:	9b bb       	out	0x1b, r25	; 27
-	PORTA^=(1<<PINA2);
- 126:	9b b3       	in	r25, 0x1b	; 27
- 128:	89 27       	eor	r24, r25
- 12a:	8b bb       	out	0x1b, r24	; 27
-	
 }
- 12c:	ff 91       	pop	r31
- 12e:	ef 91       	pop	r30
- 130:	bf 91       	pop	r27
- 132:	af 91       	pop	r26
- 134:	9f 91       	pop	r25
- 136:	8f 91       	pop	r24
- 138:	7f 91       	pop	r23
- 13a:	6f 91       	pop	r22
- 13c:	5f 91       	pop	r21
- 13e:	4f 91       	pop	r20
- 140:	3f 91       	pop	r19
- 142:	2f 91       	pop	r18
- 144:	0f 90       	pop	r0
- 146:	0f be       	out	0x3f, r0	; 63
- 148:	0f 90       	pop	r0
- 14a:	1f 90       	pop	r1
- 14c:	18 95       	reti
+ 118:	ff 91       	pop	r31
+ 11a:	ef 91       	pop	r30
+ 11c:	bf 91       	pop	r27
+ 11e:	af 91       	pop	r26
+ 120:	9f 91       	pop	r25
+ 122:	8f 91       	pop	r24
+ 124:	7f 91       	pop	r23
+ 126:	6f 91       	pop	r22
+ 128:	5f 91       	pop	r21
+ 12a:	4f 91       	pop	r20
+ 12c:	3f 91       	pop	r19
+ 12e:	2f 91       	pop	r18
+ 130:	0f 90       	pop	r0
+ 132:	0f be       	out	0x3f, r0	; 63
+ 134:	0f 90       	pop	r0
+ 136:	1f 90       	pop	r1
+ 138:	18 95       	reti
 
-0000014e <_exit>:
- 14e:	f8 94       	cli
+0000013a <_exit>:
+ 13a:	f8 94       	cli
 
-00000150 <__stop_program>:
- 150:	ff cf       	rjmp	.-2      	; 0x150 <__stop_program>
+0000013c <__stop_program>:
+ 13c:	ff cf       	rjmp	.-2      	; 0x13c <__stop_program>
