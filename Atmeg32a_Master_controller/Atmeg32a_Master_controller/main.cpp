@@ -80,5 +80,5 @@ int main(void)
 ISR (TIMER1_COMPA_vect) //timing the data transfer
 {
 	PORTA^=(1<<PINA1); //checking timer
-	SPI_transfer(1);
+	SPI_transfer(1); // initiate transfer
 }
