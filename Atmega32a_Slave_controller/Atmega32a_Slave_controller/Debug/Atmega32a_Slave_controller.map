@@ -12,8 +12,6 @@ Discarded input sections
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
- .text._Z9led_colori
-                0x00000000       0x14 main.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
@@ -379,38 +377,38 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0x38
+.debug_aranges  0x00000000       0x30
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x38 main.o
+                0x00000000       0x30 main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x60b
+.debug_info     0x00000000      0x5db
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x4e6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/crtatmega32a.o
- .debug_info    0x000004e6      0x125 main.o
+ .debug_info    0x000004e6       0xf5 main.o
 
-.debug_abbrev   0x00000000      0x58e
+.debug_abbrev   0x00000000      0x564
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x4a3 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/crtatmega32a.o
- .debug_abbrev  0x000004a3       0xeb main.o
+ .debug_abbrev  0x000004a3       0xc1 main.o
 
-.debug_line     0x00000000       0xef
+.debug_line     0x00000000       0xbb
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000       0x1a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/crtatmega32a.o
- .debug_line    0x0000001a       0xd5 main.o
+ .debug_line    0x0000001a       0xa1 main.o
 
-.debug_frame    0x00000000       0x54
+.debug_frame    0x00000000       0x44
  *(.debug_frame)
- .debug_frame   0x00000000       0x54 main.o
+ .debug_frame   0x00000000       0x44 main.o
 
-.debug_str      0x00000000      0x386
+.debug_str      0x00000000      0x37f
  *(.debug_str)
  .debug_str     0x00000000      0x196 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/crtatmega32a.o
- .debug_str     0x00000196      0x1f0 main.o
-                                0x22a (size before relaxing)
+ .debug_str     0x00000196      0x1e9 main.o
+                                0x21d (size before relaxing)
 
 .debug_loc      0x00000000       0x1f
  *(.debug_loc)
@@ -434,9 +432,9 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x28
+.debug_ranges   0x00000000       0x20
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x28 main.o
+ .debug_ranges  0x00000000       0x20 main.o
 
 .debug_macro
  *(.debug_macro)

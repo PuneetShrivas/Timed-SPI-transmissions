@@ -13,20 +13,6 @@ void SPI_init_Slave(void)  //initialization as slave board
 	SPCR|=(1<<SPE); // Enabled SPI, PRESCALINGLEFT
 }
 
-void led_color (int color)
-{
-	if(color==0)  // turns LED Off
-	{
-		PORTA=0b00000000;
-		PORTA|=(1<<PINA0); 
-	}
-	else if(color==1) // turns LED On
-	{
-		PORTA=0b00000000;
-		PORTA|=(1<<PINA1);
-	}
-}
-
 unsigned char SPI_transfer(unsigned char data)
 {
 	PORTA|=(1<<PINA2);
@@ -37,16 +23,12 @@ unsigned char SPI_transfer(unsigned char data)
 
 int main(void)
 {
-	
 	DDRA|=1<<PINA0|1<<PINA1|1<<PINA2; //PINA0 : Off(0), PINA1 : On(1)
-	PORTA=0b00000000; //set PINA0 and PINA1 as output and low
+	PORTA = 0x00000000;
 	SPI_init_Slave();
     while (1) 
     {
 	data=SPI_transfer(0);
-	//if(data==0x7E)led_color(1);
-	//else led_color(0);
-	 //checking for consistency of data transfer
     }
 }
 

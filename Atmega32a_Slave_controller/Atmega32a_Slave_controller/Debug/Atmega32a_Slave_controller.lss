@@ -13,21 +13,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000150  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000038  00000000  00000000  0000018c  2**0
+  5 .debug_aranges 00000030  00000000  00000000  0000018c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000060b  00000000  00000000  000001c4  2**0
+  6 .debug_info   000005db  00000000  00000000  000001bc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 0000058e  00000000  00000000  000007cf  2**0
+  7 .debug_abbrev 00000564  00000000  00000000  00000797  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000000ef  00000000  00000000  00000d5d  2**0
+  8 .debug_line   000000bb  00000000  00000000  00000cfb  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000054  00000000  00000000  00000e4c  2**2
+  9 .debug_frame  00000044  00000000  00000000  00000db8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000386  00000000  00000000  00000ea0  2**0
+ 10 .debug_str    0000037f  00000000  00000000  00000dfc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000001f  00000000  00000000  00001226  2**0
+ 11 .debug_loc    0000001f  00000000  00000000  0000117b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000028  00000000  00000000  00001245  2**0
+ 12 .debug_ranges 00000020  00000000  00000000  0000119a  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -83,18 +83,18 @@ Disassembly of section .text:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 0000007c <_Z14SPI_init_Slavev>:
-		PORTA|=(1<<PINA0); 
-	}
-	else if(color==1) // turns LED On
-	{
-		PORTA=0b00000000;
-		PORTA|=(1<<PINA1);
+#define F_CPU 14745600
+#include <avr/io.h>
+unsigned char data;
+void SPI_init_Slave(void)  //initialization as slave board
+{
+	DDRB|=(1<<PINB6); //sets MISO as output
   7c:	be 9a       	sbi	0x17, 6	; 23
+	SPCR|=(1<<SPE); // Enabled SPI, PRESCALINGLEFT
   7e:	6e 9a       	sbi	0x0d, 6	; 13
   80:	08 95       	ret
 
 00000082 <_Z12SPI_transferh>:
-	}
 }
 
 unsigned char SPI_transfer(unsigned char data)
@@ -115,12 +115,11 @@ unsigned char SPI_transfer(unsigned char data)
 
 int main(void)
 {
-	
 	DDRA|=1<<PINA0|1<<PINA1|1<<PINA2; //PINA0 : Off(0), PINA1 : On(1)
   8e:	8a b3       	in	r24, 0x1a	; 26
   90:	87 60       	ori	r24, 0x07	; 7
   92:	8a bb       	out	0x1a, r24	; 26
-	PORTA=0b00000000; //set PINA0 and PINA1 as output and low
+	PORTA = 0x00000000;
   94:	1b ba       	out	0x1b, r1	; 27
 	SPI_init_Slave();
   96:	0e 94 3e 00 	call	0x7c	; 0x7c <_Z14SPI_init_Slavev>
